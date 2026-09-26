@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# ドメイン直下のrobots.txtだけが検索エンジンに読まれるため、各サイトのサイトマップをここにまとめる
+Sitemap: https://masanori141-oss.github.io/sitemap.xml
+Sitemap: https://masanori141-oss.github.io/nisa-fund-compare/sitemap.xml
+Sitemap: https://masanori141-oss.github.io/sme-support-japan/sitemap.xml

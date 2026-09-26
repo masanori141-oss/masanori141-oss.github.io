@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MVQZEB89RS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MVQZEB89RS');
+  gtag('config', 'G-N2JHBP892C');
+</script>
+<title>返済・積立シミュレーター ｜ お金の総合デパート</title>
+<meta name="description" content="住宅ローン・教育ローンなどの毎月の返済額と、積立投資の将来額を同じ画面で試算。ローン残高と積立資産の推移をグラフで比較できます。金利の初期値は掲載中のローン金利から自動設定。">
+<link rel="canonical" href="https://masanori141-oss.github.io/tools/simulator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="お金の総合デパート">
+<meta property="og:title" content="返済・積立シミュレーター ｜ お金の総合デパート">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/gnav/gnav.css">
+<script src="/assets/gnav/registry.js" defer></script>
+<script src="/assets/gnav/gnav.js" defer></script>
+<link rel="stylesheet" href="/assets/portal.css">
+<style>
+  .sim-head{padding:40px 0 28px; border-bottom:1px solid var(--line);}
+  .sim-head h1{font-size:clamp(24px, 3.2vw, 32px); margin:6px 0 8px;}
+  .sim-head p{color:var(--sub); font-size:14px; margin:0; max-width:46em;}
+  .sim{display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:28px 0 8px;}
+  .panel{border:1px solid var(--line); border-top:4px solid var(--c); padding:18px 20px 20px; background:#fff;}
+  .panel h2{font-size:19px; display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .fields{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px;}
+  .field label{display:block; font-size:12px; font-weight:700; color:var(--sub); margin-bottom:4px;}
+  .field .in{display:flex; align-items:center; border:1px solid var(--line-strong); border-radius:3px; background:#fff;}
+  .field .in:focus-within{border-color:var(--c); box-shadow:0 0 0 2px color-mix(in srgb, var(--c) 20%, transparent);}
+  .field input, .field select{width:100%; min-width:0; border:0; background:transparent; padding:9px 10px; font:inherit; font-size:15px; font-variant-numeric:tabular-nums; color:var(--text); outline:none;}
+  .field .u{padding:0 10px 0 0; font-size:12.5px; color:var(--sub); white-space:nowrap;}
+  .field.full{grid-column:1 / -1;}
+  .hint{font-size:11.5px; color:var(--sub); margin-top:4px; min-height:1em;}
+  .res{display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-top:16px; padding-top:14px; border-top:1px dashed var(--line);}
+  .res div{font-size:11.5px; color:var(--sub);}
+  .res b{display:block; font-family:'Shippori Mincho', serif; font-size:20px; color:var(--text); font-variant-numeric:tabular-nums;}
+  .res .main b{color:var(--c); font-size:24px;}
+  .cta{display:inline-block; margin-top:14px; font-size:13.5px; font-weight:700; color:var(--c); text-decoration:none;}
+  .cta:hover{text-decoration:underline;}
+  .total{margin:16px 0 0; border:1px solid var(--line); background:var(--bg-soft); padding:16px 20px; display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 18px;}
+  .total strong{font-size:14px;}
+  .total b{font-family:'Shippori Mincho', serif; font-size:28px; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .total span{font-size:12.5px; color:var(--sub);}
+  .chart-box{border:1px solid var(--line); padding:18px 20px 10px; margin:16px 0 8px;}
+  .chart-box h2{font-size:18px; margin-bottom:4px;}
+  .legend{display:flex; gap:18px; font-size:12.5px; color:var(--sub); margin-bottom:6px;}
+  .legend i{display:inline-block; width:18px; height:3px; vertical-align:middle; margin-right:6px;}
+  #chart{width:100%; height:auto; display:block;}
+  #chart text{font-family:'Zen Kaku Gothic New', sans-serif; font-size:11px; fill:#5B5D5F;}
+  .note{font-size:12px; color:var(--sub); margin:14px 0 48px; line-height:1.8;}
+  @media (max-width:860px){ .sim{grid-template-columns:1fr;} }
+  @media (max-width:420px){ .res{grid-template-columns:1fr 1fr;} .res .main{grid-column:1 / -1;} }
+</style>
+</head>
+<body>
+<div id="mh-gnav"></div>
+
+<div class="sim-head">
+  <div class="wrap">
+    <span class="eyebrow">SIMULATOR</span>
+    <h1>返済・積立シミュレーター</h1>
+    <p>ローンの毎月の返済額と、積立投資の将来の金額を同じ画面で試算します。ローンの金利は、当サイトに掲載中の同じ種類のローンの下限金利（中央値）を初期値として入れています。</p>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="sim">
+    <section class="panel" style="--c:var(--borrow)" aria-labelledby="h-loan">
+      <h2 id="h-loan"><span class="chip">借りる</span>ローンの返済</h2>
+      <div class="fields">
+        <div class="field full"><label for="l-type">ローンの種類</label>
+          <div class="in"><select id="l-type">
+            <option value="mortgage">住宅ローン</option>
+            <option value="education-loan">教育ローン</option>
+            <option value="auto-loan">自動車ローン</option>
+            <option value="reform-loan">リフォームローン</option>
+            <option value="card-loan">カードローン</option>
+          </select></div></div>
+        <div class="field"><label for="l-amount">借入額</label><div class="in"><input id="l-amount" type="number" inputmode="decimal" min="0" step="10"><span class="u">万円</span></div></div>
+        <div class="field"><label for="l-rate">金利（年）</label><div class="in"><input id="l-rate" type="number" inputmode="decimal" min="0" max="20" step="0.01"><span class="u">%</span></div><div class="hint" id="l-rate-hint"></div></div>
+        <div class="field"><label for="l-years">返済期間</label><div class="in"><input id="l-years" type="number" inputmode="numeric" min="1" max="50" step="1"><span class="u">年</span></div></div>
+        <div class="field"><label>返済方法</label><div class="in"><input value="元利均等返済" disabled></div></div>
+      </div>
+      <div class="res">
+        <div class="main">毎月の返済額<b id="r-pay">—</b></div>
+        <div>総返済額<b id="r-total">—</b></div>
+        <div>うち利息<b id="r-interest">—</b></div>
+      </div>
+      <a class="cta" id="l-cta" href="/sme-support-japan/loans/mortgage.html" data-mh-ev="sim_click" data-mh-id="borrow.mortgage">住宅ローンの金利を比較する →</a>
+    </section>
+
+    <section class="panel" style="--c:var(--invest)" aria-labelledby="h-inv">
+      <h2 id="h-inv"><span class="chip">増やす</span>積立投資</h2>
+      <div class="fields">
+        <div class="field"><label for="i-monthly">毎月の積立額</label><div class="in"><input id="i-monthly" type="number" inputmode="numeric" min="0" step="1000" value="30000"><span class="u">円</span></div></div>
+        <div class="field"><label for="i-rate">想定利回り（年）</label><div class="in"><input id="i-rate" type="number" inputmode="decimal" min="-10" max="20" step="0.1" value="3"><span class="u">%</span></div><div class="hint">仮定の値です（将来の成果を示すものではありません）</div></div>
+        <div class="field"><label for="i-years">積立期間</label><div class="in"><input id="i-years" type="number" inputmode="numeric" min="1" max="50" step="1" value="20"><span class="u">年</span></div></div>
+        <div class="field"><label for="i-init">初期投資額</label><div class="in"><input id="i-init" type="number" inputmode="numeric" min="0" step="1" value="0"><span class="u">万円</span></div></div>
+      </div>
+      <div class="res">
+        <div class="main">積立後の評価額<b id="r-fv">—</b></div>
+        <div>元本（積立累計）<b id="r-principal">—</b></div>
+        <div>運用による増減<b id="r-gain">—</b></div>
+      </div>
+      <a class="cta" href="/nisa-fund-compare/index.html" data-mh-ev="sim_click" data-mh-id="invest.nisa-search">NISA対象の投資信託を比較する →</a>
+    </section>
+  </div>
+
+  <div class="total" aria-live="polite">
+    <strong>毎月の支出（返済＋積立）</strong><b id="r-monthly-sum">—</b><span id="r-monthly-break"></span>
+  </div>
+
+  <section class="chart-box" aria-labelledby="h-chart">
+    <h2 id="h-chart">ローン残高と積立資産の推移</h2>
+    <div class="legend"><span><i style="background:var(--borrow)"></i>ローン残高</span><span><i style="background:var(--invest)"></i>積立資産の評価額</span></div>
+    <svg id="chart" viewBox="0 0 720 280" role="img" aria-label="ローン残高と積立資産の推移グラフ"></svg>
+  </section>
+
+  <p class="note">※ 試算は元利均等返済・月複利（積立は毎月末に積み立てる前提）の概算で、手数料・保証料・団体信用生命保険料・税金・金利の変動は考慮していません。積立の想定利回りは仮の値であり、投資信託は元本保証ではありません。実際の返済額・条件は各金融機関に、投資判断は目論見書等の公式資料をご確認のうえご自身で行ってください。</p>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var DEFAULTS = {
+    "mortgage":       { label: "住宅ローン",       amount: 3000, years: 35, rate: 0.9,  href: "/sme-support-japan/loans/mortgage.html",       id: "borrow.mortgage" },
+    "education-loan": { label: "教育ローン",       amount: 300,  years: 10, rate: 2.5,  href: "/sme-support-japan/loans/education-loan.html", id: "borrow.education" },
+    "auto-loan":      { label: "自動車ローン",     amount: 300,  years: 5,  rate: 2.5,  href: "/sme-support-japan/loans/auto-loan.html",      id: "borrow.auto" },
+    "reform-loan":    { label: "リフォームローン", amount: 500,  years: 10, rate: 2.5,  href: "/sme-support-japan/loans/reform-loan.html",    id: "borrow.reform" },
+    "card-loan":      { label: "カードローン",     amount: 50,   years: 3,  rate: 14.5, href: "/sme-support-japan/loans/card-loan.html",      id: "borrow.card" }
+  };
+  var medians = {}, counts = {};
+  var $ = function (id) { return document.getElementById(id); };
+  var num = function (id) { var v = parseFloat($(id).value); return isFinite(v) ? v : 0; };
+
+  function yen(v) {
+    v = Math.round(v);
+    if (Math.abs(v) >= 1e8) return (v / 1e8).toFixed(2).replace(/\.?0+$/, "") + "億円";
+    if (Math.abs(v) >= 1e4) return Math.round(v / 1e4).toLocaleString("ja-JP") + "万円";
+    return v.toLocaleString("ja-JP") + "円";
+  }
+  function yenExact(v) { return Math.round(v).toLocaleString("ja-JP") + "円"; }
+
+  function applyType(type, keepValues) {
+    var d = DEFAULTS[type];
+    if (!keepValues) {
+      $("l-amount").value = d.amount;
+      $("l-years").value = d.years;
+      $("l-rate").value = medians[type] != null ? medians[type] : d.rate;
+    }
+    $("l-rate-hint").textContent = medians[type] != null
+      ? "掲載中の" + d.label + " " + counts[type] + "件の下限金利の中央値"
+      : "参考値（掲載データの読み込み前）";
+    var cta = $("l-cta");
+    cta.href = d.href;
+    cta.setAttribute("data-mh-id", d.id);
+    cta.textContent = d.label + "の金利を比較する →";
+  }
+
+  function loanSeries(P, ratePct, years) {
+    var r = ratePct / 100 / 12, n = Math.round(years * 12);
+    if (P <= 0 || n <= 0) return { pay: 0, total: 0, bal: [0] };
+    var pay = r === 0 ? P / n : P * r / (1 - Math.pow(1 + r, -n));
+    var bal = [P], b = P;
+    for (var k = 1; k <= n; k++) {
+      b = b * (1 + r) - pay;
+      if (k % 12 === 0 || k === n) bal.push(Math.max(0, b));
+    }
+    return { pay: pay, total: pay * n, bal: bal };
+  }
+  function investSeries(monthly, init, ratePct, years) {
+    var m = ratePct / 100 / 12, n = Math.round(years * 12), v = init, vals = [init];
+    for (var k = 1; k <= n; k++) {
+      v = v * (1 + m) + monthly;
+      if (k % 12 === 0 || k === n) vals.push(v);
+    }
+    return { fv: v, principal: init + monthly * n, vals: vals };
+  }
+
+  function drawChart(loanBal, invVals) {
+    var W = 720, H = 280, L = 58, R = 16, T = 14, B = 34;
+    var yearsMax = Math.max(loanBal.length, invVals.length) - 1 || 1;
+    var vMax = Math.max.apply(null, loanBal.concat(invVals).concat([1]));
+    var step = Math.pow(10, Math.floor(Math.log10(vMax)));
+    [1, 2, 2.5, 5, 10].some(function (m) { if (vMax / (step * m) <= 5) { step *= m; return true; } });
+    var yTop = Math.ceil(vMax / step) * step;
+    var x = function (i) { return L + (W - L - R) * i / yearsMax; };
+    var y = function (v) { return T + (H - T - B) * (1 - v / yTop); };
+    var g = "";
+    for (var v = 0; v <= yTop + 1e-6; v += step) {
+      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="#ECEAE3"/>' +
+           '<text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + yen(v) + "</text>";
+    }
+    var xStep = yearsMax > 30 ? 10 : yearsMax > 12 ? 5 : yearsMax > 6 ? 2 : 1;
+    for (var i = 0; i <= yearsMax; i += xStep) {
+      g += '<text x="' + x(i) + '" y="' + (H - 12) + '" text-anchor="middle">' + i + "年</text>";
+    }
+    function path(arr, color) {
+      if (arr.length < 2) return "";
+      var d = arr.map(function (v, i) { return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(v).toFixed(1); }).join(" ");
+      var last = arr.length - 1;
+      return '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="2.5" stroke-linejoin="round"/>' +
+             '<circle cx="' + x(last) + '" cy="' + y(arr[last]) + '" r="3.5" fill="' + color + '"/>';
+    }
+    $("chart").innerHTML = g + '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="#C7C4B8"/>' +
+      path(loanBal, "#B93C28") + path(invVals, "#1E6B41");
+  }
+
+  function calc() {
+    var loan = loanSeries(num("l-amount") * 1e4, num("l-rate"), num("l-years"));
+    $("r-pay").textContent = yenExact(loan.pay);
+    $("r-total").textContent = yen(loan.total);
+    $("r-interest").textContent = yen(Math.max(0, loan.total - num("l-amount") * 1e4));
+    var inv = investSeries(num("i-monthly"), num("i-init") * 1e4, num("i-rate"), num("i-years"));
+    $("r-fv").textContent = yen(inv.fv);
+    $("r-principal").textContent = yen(inv.principal);
+    var gain = inv.fv - inv.principal;
+    $("r-gain").textContent = (gain >= 0 ? "+" : "−") + yen(Math.abs(gain));
+    $("r-monthly-sum").textContent = yenExact(loan.pay + num("i-monthly"));
+    $("r-monthly-break").textContent = "返済 " + yenExact(loan.pay) + " ＋ 積立 " + yenExact(num("i-monthly"));
+    drawChart(loan.bal, inv.vals);
+  }
+
+  var params = new URLSearchParams(location.search);
+  var initType = DEFAULTS[params.get("type")] ? params.get("type") : "mortgage";
+  $("l-type").value = initType;
+  applyType(initType);
+  calc();
+
+  $("l-type").addEventListener("change", function () { applyType(this.value); calc(); });
+  document.querySelectorAll(".sim input").forEach(function (el) { el.addEventListener("input", calc); });
+
+  // 掲載中のローン金利から、種類ごとの下限金利の中央値を求めて初期値にする
+  fetch("/sme-support-japan/loans/loan-data.json")
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (items) {
+      var groups = {};
+      items.forEach(function (i) {
+        if (DEFAULTS[i.loanCategory] && typeof i.rateMin === "number" && i.rateMin > 0) (groups[i.loanCategory] = groups[i.loanCategory] || []).push(i.rateMin);
+      });
+      Object.keys(groups).forEach(function (k) {
+        var a = groups[k].sort(function (x, y) { return x - y; }), h = a.length >> 1;
+        medians[k] = Math.round((a.length % 2 ? a[h] : (a[h - 1] + a[h]) / 2) * 1000) / 1000;
+        counts[k] = a.length;
+      });
+      var type = $("l-type").value;
+      var d = DEFAULTS[type];
+      // 利用者が金利を触っていなければ、データの値に置き換える
+      if (parseFloat($("l-rate").value) === d.rate && medians[type] != null) $("l-rate").value = medians[type];
+      applyType(type, true);
+      calc();
+    })
+    .catch(function () { /* 読み込めなければ参考値のまま */ });
+})();
+</script>
+</body>
+</html>
