@@ -94,6 +94,7 @@ https://masanori141-oss.github.io/sme-support-japan/   ← 借りる／事業の
 
 毎週月曜に `tools/verify_cards.py` が公式ページを取得し、`verify` の文言が見つからなくなると
 （＝還元率や条件の記載が変わった可能性）、ラベル `card-data-check` の Issue を作成します。
+GitHub のサーバーからのアクセスを拒否するサイト（三井住友カード・マネックス証券など）は「未確認」として Issue 内に列挙するだけで、差分扱いにはしません。手元で `python tools/verify_cards.py` を実行すると全件を照合できます。
 
 カードを追加する場合は `cards` 配列に1件追加し、`rates`（試算用の店舗別還元率）と `tsumitate`（クレカ積立の段階的な還元率 `tiers`）を設定します。
 
