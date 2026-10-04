@@ -1,0 +1,59 @@
+name: 3F 支払う（カード比較）の再生成と公式サイト照合
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "cards/cards.json"
+      - "tools/build_cards.py"
+  schedule:
+    - cron: "0 0 * * 1"   # 毎週月曜 9:00（日本時間）に公式サイトと照合
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  build:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: cards.json からページを生成
+        run: python tools/build_cards.py
+      - name: 変更があればコミット
+        run: |
+          git config user.name "okane-depart-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add cards/index.html cards/nisa-tsumitate.html
+          git diff --quiet --cached || git commit -m "自動生成: カード比較ページを cards.json から再生成"
+          git push
+
+  verify:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 公式サイトの記載と照合
+        id: verify
+        run: python tools/verify_cards.py --markdown report.md
+        continue-on-error: true
+      - name: 差分があれば Issue を作成・更新
+        if: steps.verify.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create card-data-check --color B93C28 --description "カード情報の見直しが必要" 2>/dev/null || true
+          num=$(gh issue list --label card-data-check --state open --json number --jq '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body-file report.md
+          else
+            gh issue create --title "【要確認】カード比較の掲載情報と公式サイトに差分があります" --label card-data-check --body-file report.md
+          fi

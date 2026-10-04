@@ -1,0 +1,295 @@
+{
+  "_readme": "3F 支払う（クレジットカード比較）のデータ。各カード公式サイトで確認した内容のみを記載する。編集後は `python tools/build_cards.py` でページを再生成（GitHub Actions でも自動実行）。verify は週次の公式サイト照合（tools/verify_cards.py）で使う：url のページに contains の文字列が見つからなければ Issue を作成する。",
+  "checkedAt": "2026-10-04",
+  "cards": [
+    {
+      "id": "mufg",
+      "name": "三菱ＵＦＪカード",
+      "issuer": "三菱UFJニコス",
+      "color": "#C8102E",
+      "annualFee": "永年無料（本人・家族）",
+      "brands": ["Mastercard", "Visa", "JCB", "American Express"],
+      "point": "グローバルポイント",
+      "pointValue": "1ポイント＝最大5円相当（キャッシュバックは4円）",
+      "baseRate": 0.5,
+      "baseRateText": "0.5%相当（1ヵ月の利用合計1,000円ごとに1ポイント）",
+      "headline": "セブン‐イレブン・ローソン等の対象店舗で7%相当、条件達成で最大20%",
+      "features": [
+        {
+          "kind": "shop",
+          "title": "対象店舗で7%相当",
+          "text": "セブン‐イレブン、ローソン、コカ・コーラ自販機、スシロー、くら寿司、松屋、オーケー、東急ストアなどの対象店舗で7%相当（基本0.5%＋スペシャル6.5%）。スペシャル分は毎月16日〜翌月15日の対象店舗利用5万円までが対象。カード・カードのタッチ決済・Apple Pay（QUICPay）での支払いが対象で、スマホのタッチ決済は対象外。"
+        },
+        {
+          "kind": "group",
+          "title": "ポイントアッププログラムで最大20%",
+          "text": "支払口座を三菱UFJ銀行に設定しMDCアプリからエントリーすると、条件達成に応じて対象店舗の還元率がアップ。三菱UFJダイレクトへのログイン（+1.0%）、給与・年金の受取（+1.0%）、MUFGグループのつみたて投資（+1.0%）、住宅ローン契約（+1.0%）など。"
+        },
+        {
+          "kind": "telecom",
+          "title": "携帯電話料金のカード払いで+1.0%",
+          "text": "au（povo含む）・NTTドコモ（ahamo含む）・ソフトバンク（LINEMO含む）・ワイモバイルの料金を三菱UFJカードで支払うと、ポイントアッププログラムの条件として対象店舗の還元率が+1.0%。"
+        },
+        {
+          "kind": "code",
+          "title": "COIN+への口座登録で+0.5%",
+          "text": "QR決済ブランド「COIN+」が使えるアプリ（エアウォレット等）に三菱UFJ銀行口座を登録すると、ポイントアッププログラムの条件として対象店舗の還元率が+0.5%。Apple Pay（QUICPay）利用またはグローバルポイント Walletへのカードチャージでも+0.5%。"
+        }
+      ],
+      "economy": "MUFG（三菱UFJ銀行・三菱UFJ eスマート証券）",
+      "rates": { "seven_lawson": 7.0, "seven_lawson_cap": 50000, "seven_lawson_note": "カード・タッチ決済（カード現物）・Apple Pay（QUICPay）" },
+      "tsumitate": {
+        "broker": "三菱UFJ eスマート証券",
+        "rateText": "0.55%相当",
+        "tiers": [{ "upTo": 100000, "rate": 0.55 }],
+        "unit": 1000,
+        "monthlyLimit": 100000,
+        "conditions": "2026年6月利用分から0.55%相当。ポイントは毎月の利用金額1,000円ごとに付与（1,000円未満は付与なし）。還元率は1ポイント5円相当の商品に交換した場合。",
+        "source": "https://www.cr.mufg.jp/mufgcard/service/scene/accumulate/index.html"
+      },
+      "sources": [
+        { "label": "三菱ＵＦＪカード（申込ページ）", "url": "https://www.cr.mufg.jp/apply/card/mucard/index.html" },
+        { "label": "対象店舗で最大20％ポイント還元", "url": "https://www.cr.mufg.jp/mufgcard/point/global/save/convenience_store/index.html" },
+        { "label": "三菱ＵＦＪカードのクレカ積立", "url": "https://www.cr.mufg.jp/mufgcard/service/scene/accumulate/index.html" }
+      ],
+      "verify": [
+        { "url": "https://www.cr.mufg.jp/mufgcard/point/global/index.html", "contains": "1,000円ごとに基本ポイントを1ポイント付与" },
+        { "url": "https://www.cr.mufg.jp/mufgcard/point/global/save/convenience_store/index.html", "contains": "ご利用金額合計50,000円が上限" },
+        { "url": "https://www.cr.mufg.jp/mufgcard/service/scene/accumulate/index.html", "contains": "0.55％相当ポイント還元" }
+      ]
+    },
+    {
+      "id": "smbc",
+      "name": "三井住友カード（NL）／Olive",
+      "issuer": "三井住友カード",
+      "color": "#00804A",
+      "annualFee": "永年無料（本人・家族）",
+      "brands": ["Visa", "Mastercard"],
+      "point": "Vポイント",
+      "pointValue": "1ポイント＝1円相当（交換方法により異なる）",
+      "baseRate": 0.5,
+      "baseRateText": "0.5%（利用金額200円につき1ポイント）",
+      "headline": "対象のコンビニ・飲食店でスマホのタッチ決済7%（Oliveは8%）、条件達成で最大20%",
+      "features": [
+        {
+          "kind": "shop",
+          "title": "対象のコンビニ・飲食店で7%（Oliveは8%）",
+          "text": "セブン‐イレブン、ローソン、ミニストップ、セイコーマート、マクドナルド、モスバーガー、すき家、サイゼリヤ、ガスト、ドトールなどで、スマホのVisaのタッチ決済・Mastercardタッチ決済またはモバイルオーダーで支払うと7%。Oliveフレキシブルペイのクレジットモードは8%。カード現物のタッチ決済・iD・差し込みは対象外。"
+        },
+        {
+          "kind": "group",
+          "title": "Vポイントアッププログラム（最大+7%）",
+          "text": "Oliveアカウントの選べる特典（+1%）、SBI証券（最大+2%）、円預金（最大+3%）、住友生命（最大+2%）、住宅ローン（+1%）、外貨預金（最大+2%）などの利用状況に応じて、対象のコンビニ・飲食店での還元率がアップ。家族ポイント（最大+5%）と合わせて最大20%。"
+        },
+        {
+          "kind": "code",
+          "title": "コード決済は25歳以下に特典",
+          "text": "PayPayにカードを登録して支払った場合の上乗せは、25歳以下向け「リワードアップ U25」の最大+0.5%。VポイントPay（Visa利用）は0.5%還元。"
+        },
+        {
+          "kind": "telecom",
+          "title": "携帯料金は25歳以下に特典",
+          "text": "25歳以下向け「リワードアップ U25」で、携帯料金のカード払いに最大+1.5%。"
+        }
+      ],
+      "economy": "SMBCグループ（三井住友銀行Olive・SBI証券・住友生命）",
+      "rates": { "seven_lawson": 7.0, "seven_lawson_olive": 8.0, "seven_lawson_note": "スマホのタッチ決済・モバイルオーダー" },
+      "tsumitate": {
+        "broker": "SBI証券",
+        "rateText": "0.5%",
+        "tiers": [{ "upTo": 100000, "rate": 0.5 }],
+        "unit": 1,
+        "monthlyLimit": 100000,
+        "conditions": "入会初年度は条件なしで0.5%。2年目以降は前年の年間カード利用額が10万円以上で0.5%、10万円未満は0%。",
+        "source": "https://www.smbc-card.com/nyukai/merit/tsumitate_details_classic.jsp"
+      },
+      "sources": [
+        { "label": "三井住友カード（NL）", "url": "https://www.smbc-card.com/nyukai/card/numberless.jsp" },
+        { "label": "Vポイントアッププログラム", "url": "https://www.smbc-card.com/mem/wp/vpoint_up_program/index.jsp" },
+        { "label": "三井住友カードつみたて投資の付与率", "url": "https://www.smbc-card.com/nyukai/merit/tsumitate_details_classic.jsp" }
+      ],
+      "verify": [
+        { "url": "https://www.smbc-card.com/nyukai/card/numberless.jsp", "contains": "ご利用金額200円（税込）につき1ポイント" },
+        { "url": "https://www.smbc-card.com/mem/wp/vpoint_up_program/index.jsp", "contains": "＋7.5％ポイント還元" },
+        { "url": "https://www.smbc-card.com/nyukai/merit/tsumitate_details_classic.jsp", "contains": "前年、年間10万円以上のご利用で" }
+      ]
+    },
+    {
+      "id": "dcard",
+      "name": "dカード",
+      "issuer": "NTTドコモ・フィナンシャルグループ",
+      "color": "#CC0033",
+      "annualFee": "無料（2027年1月から：前年度に一度も利用がない場合は1,650円）",
+      "brands": ["Visa", "Mastercard"],
+      "point": "dポイント",
+      "pointValue": "1ポイント＝1円相当",
+      "baseRate": 1.0,
+      "baseRateAfter": 0.5,
+      "baseRateText": "1%（100円につき1ポイント）※2027年1月利用分から0.5%（200円につき1ポイント）",
+      "headline": "いまは1%還元。d払い・ドコモの料金との連携が軸（2027年に改定予定）",
+      "notice": "dカード公式サイトで、通常決済のポイント進呈率を2027年1月利用分から「100円につき1ポイント」→「200円につき1ポイント」に、年会費を2027年1月から「無料」→「前年度に一度も利用がない場合1,650円」に改定すると告知されています。スマートフォンのタッチ決済は2027年5月利用分から200円につき2ポイント（新しい番号のカードのみ）。",
+      "noticeSource": "https://dcard.docomo.ne.jp/std/info/correction20260901.html",
+      "features": [
+        {
+          "kind": "code",
+          "title": "d払いの支払い方法をdカードに設定",
+          "text": "d払い（支払い方法をdカードに設定）は、d払い基本還元200円につき1ポイント＋dカード支払い特典200円につき1ポイント（期間・用途限定）で、改定後も200円につき2ポイント。dポイントクラブのランクに応じたd払い特典あり（上限200ポイント/月）。"
+        },
+        {
+          "kind": "telecom",
+          "title": "ドコモの料金とセットで",
+          "text": "対象のケータイ料金をdカードで支払うと「dカードお支払割」で毎月最大220円割引。ケータイ補償（購入後1年以内・最大3万円）、ドコモ ポイ活 MAX利用時のdカード特典3%、ahamoのボーナスパケット+1GB。"
+        },
+        {
+          "kind": "group",
+          "title": "ドコモの銀行との連携",
+          "text": "ドコモの銀行（ドコモSMTBネット銀行）でカード利用代金を引き落とすなどの条件達成で、街のお店でのスマホのタッチ決済・d払い（dカード払い）の進呈率がアップ（特典は上限3,000ポイント/月）。"
+        },
+        {
+          "kind": "shop",
+          "title": "dカード特約店",
+          "text": "dカード特約店（40以上）ではカード利用のポイントに加えてdポイントが加算されたり、割引などの特典が受けられる。"
+        }
+      ],
+      "economy": "ドコモ（通信・d払い・ドコモの銀行・マネックス証券）",
+      "rates": {},
+      "tsumitate": {
+        "broker": "マネックス証券",
+        "rateText": "最大1.1%（積立額5万円以下の部分）",
+        "tiers": [{ "upTo": 50000, "rate": 1.1 }, { "upTo": 70000, "rate": 0.6 }, { "upTo": 100000, "rate": 0.2 }],
+        "unit": 1,
+        "monthlyLimit": 100000,
+        "conditions": "dカード（一般）の場合、毎月の積立額のうち5万円以下の部分は1.1%、5万円超〜7万円以下の部分は0.6%、7万円超〜10万円以下の部分は0.2%（マネックス証券の計算例による）。家族カードは対象外。",
+        "source": "https://info.monex.co.jp/fund/tsumitate/card-tsumitate/dcard/about.html"
+      },
+      "sources": [
+        { "label": "dカード", "url": "https://dcard.docomo.ne.jp/st/dcard_dcard/index.html" },
+        { "label": "【重要】dカード dポイント進呈率・年会費改定のお知らせ", "url": "https://dcard.docomo.ne.jp/std/info/correction20260901.html" },
+        { "label": "d払い×dカード", "url": "https://dcard.docomo.ne.jp/std/campaigns/202304_ek/dpay/index.html" },
+        { "label": "マネックス証券 dカード積立", "url": "https://info.monex.co.jp/fund/tsumitate/card-tsumitate/dcard/about.html" }
+      ],
+      "verify": [
+        { "url": "https://dcard.docomo.ne.jp/st/dcard_dcard/index.html", "contains": "100円（税込）ごとに1%ポイントたまる" },
+        { "url": "https://dcard.docomo.ne.jp/std/info/correction20260901.html", "contains": "ご利用金額200円（税込）ごとに1ポイント進呈" },
+        { "url": "https://info.monex.co.jp/fund/tsumitate/card-tsumitate/dcard/about.html", "contains": "NISA口座5万円以下のレンジ適用＝1.1％" }
+      ]
+    },
+    {
+      "id": "rakuten",
+      "name": "楽天カード",
+      "issuer": "楽天カード",
+      "color": "#BF0000",
+      "annualFee": "永年無料",
+      "brands": ["Visa", "Mastercard", "JCB", "American Express"],
+      "point": "楽天ポイント",
+      "pointValue": "1ポイント＝1円相当",
+      "baseRate": 1.0,
+      "baseRateText": "1%（100円につき1ポイント）",
+      "headline": "どこでも1%。楽天市場ではカード特典で+2倍、楽天ペイ連携で1.5%",
+      "features": [
+        {
+          "kind": "shop",
+          "title": "楽天市場でSPU+2倍",
+          "text": "楽天市場で楽天カードを使うと、SPUで楽天カード通常分+1倍・特典分+1倍（特典分は月1,000ポイント上限・期間限定ポイント）。楽天市場の通常ポイント1倍と合わせて3倍。"
+        },
+        {
+          "kind": "code",
+          "title": "楽天ペイで最大1.5%",
+          "text": "楽天カードからチャージした楽天ペイ残高（楽天キャッシュ）でコード・QR払いをすると最大1.5%。楽天ポイントカードの提示と合わせられる店舗もある。"
+        },
+        {
+          "kind": "telecom",
+          "title": "楽天モバイルでSPU+4倍",
+          "text": "楽天モバイルの契約（エントリー要）で楽天市場のSPUが+4倍（月2,000ポイント上限）。楽天モバイル契約による特典で、カードの種類に関係なく適用。"
+        },
+        {
+          "kind": "group",
+          "title": "楽天経済圏",
+          "text": "楽天銀行でカード代金を引き落とすとSPU+0.3倍、さらに給与等の受取で+0.2倍。楽天証券のポイント投資（月3万円以上）でSPU+0.5倍など。"
+        }
+      ],
+      "economy": "楽天（楽天市場・楽天モバイル・楽天ペイ・楽天銀行・楽天証券）",
+      "rates": { "rakuten_ichiba": 2.0 },
+      "tsumitate": {
+        "broker": "楽天証券",
+        "rateText": "0.5%（低コスト投信）／1%（代行手数料0.4%以上の投信）",
+        "tiers": [{ "upTo": 100000, "rate": 0.5 }],
+        "altRate": 1.0,
+        "unit": 1,
+        "monthlyLimit": 100000,
+        "conditions": "一般の楽天カードの場合、信託報酬のうち販売会社が受け取る代行手数料が年率0.4%（税込）未満のファンドは0.5%、0.4%以上のファンドは1%。低コストのインデックスファンドの多くは0.5%側。",
+        "source": "https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard/list.html"
+      },
+      "sources": [
+        { "label": "楽天カード", "url": "https://www.rakuten-card.co.jp/card/rakuten-card/" },
+        { "label": "楽天市場 SPU", "url": "https://event.rakuten.co.jp/campaign/point-up/everyday/point/" },
+        { "label": "楽天ペイ残高（楽天キャッシュ）の獲得ポイント", "url": "https://cash.rakuten.co.jp/howto/point/" },
+        { "label": "楽天カードクレジット決済のポイント還元率", "url": "https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard/list.html" }
+      ],
+      "verify": [
+        { "url": "https://www.rakuten-card.co.jp/card/rakuten-card/", "contains": "1%還元(100円につき1ポイント)" },
+        { "url": "https://event.rakuten.co.jp/campaign/point-up/everyday/point/", "contains": "楽天カードご利用で更にポイント+2倍" },
+        { "url": "https://www.rakuten-sec.co.jp/web/rfund/guide/creditcard/list.html", "contains": "上記以外の楽天カード" }
+      ]
+    },
+    {
+      "id": "paypay",
+      "name": "PayPayカード",
+      "issuer": "PayPayカード",
+      "color": "#FF0033",
+      "annualFee": "永年無料",
+      "brands": ["Visa", "Mastercard", "JCB"],
+      "point": "PayPayポイント",
+      "pointValue": "1ポイント＝1円相当",
+      "baseRate": 1.0,
+      "stepBonus": 0.5,
+      "baseRateText": "1.0%（200円ごと。PayPayアプリへの登録とPayPayの本人確認が必要）",
+      "headline": "PayPayと一体で使うカード。条件達成で最大1.5%、Yahoo!ショッピングは毎日最大5%",
+      "features": [
+        {
+          "kind": "code",
+          "title": "PayPayクレジットで最大1.5%",
+          "text": "PayPayアプリにPayPayカードを登録すると、PayPayクレジット（PayPayでの支払い）もカード払いも基本1.0%。「200円以上の決済30回＆10万円以上の利用」を達成すると+0.5%で最大1.5%（PayPayステップ）。PayPay残高へのチャージは付与対象外。"
+        },
+        {
+          "kind": "shop",
+          "title": "Yahoo!ショッピング・LOHACOで毎日最大5%",
+          "text": "PayPayカード・PayPayクレジットでの支払いで、PayPayステップ1%＋ストアポイント1%＋毎日もらえる3%（LINEアカウント連携要）。LYPプレミアム会員はさらに+2%。"
+        },
+        {
+          "kind": "telecom",
+          "title": "ソフトバンク・ワイモバイルの料金で最大1%",
+          "text": "ソフトバンク／ワイモバイルのスマホ通信料等をPayPayカードで支払うと最大1%（ソフトバンクポイントで付与、PayPayポイントに交換可）。"
+        },
+        {
+          "kind": "group",
+          "title": "LINEヤフー・PayPay経済圏",
+          "text": "Yahoo!ショッピング・LOHACO・LYPプレミアム、PayPay証券（クレジットつみたて）などPayPayグループのサービスと連携。"
+        }
+      ],
+      "economy": "PayPay・LINEヤフー（PayPay・Yahoo!ショッピング・ソフトバンク・PayPay証券）",
+      "rates": { "yahoo": 5.0 },
+      "tsumitate": {
+        "broker": "PayPay証券",
+        "rateText": "0.7%（上限700ポイント/月）",
+        "tiers": [{ "upTo": 100000, "rate": 0.7 }],
+        "pointCap": 700,
+        "unit": 1,
+        "monthlyLimit": 100000,
+        "conditions": "PayPay証券ミニアプリの「クレジットつみたて」で、PayPayからPayPayポイントを付与（上限700ポイント/月）。対象はPayPay証券ミニアプリで取り扱う投資信託。家族カードは対象外。",
+        "source": "https://www.paypay-sec.co.jp/tool/miniapp/rcredit/"
+      },
+      "sources": [
+        { "label": "PayPayカード", "url": "https://www.paypay-card.co.jp/" },
+        { "label": "カード利用特典（PayPayポイント）", "url": "https://www.paypay-card.co.jp/service/benefit/point/" },
+        { "label": "ソフトバンク/ワイモバイルサービスご利用特典", "url": "https://www.paypay-card.co.jp/service/benefit/mobile/" },
+        { "label": "PayPay証券 クレジットつみたて", "url": "https://www.paypay-sec.co.jp/tool/miniapp/rcredit/" }
+      ],
+      "verify": [
+        { "url": "https://www.paypay-card.co.jp/service/benefit/point/", "contains": "200円以上30回" },
+        { "url": "https://www.paypay-card.co.jp/service/benefit/mobile/", "contains": "最大1%" },
+        { "url": "https://www.paypay-sec.co.jp/tool/miniapp/rcredit/", "contains": "PayPayカード・PayPayカード ゴールド：0.7％" }
+      ]
+    }
+  ]
+}

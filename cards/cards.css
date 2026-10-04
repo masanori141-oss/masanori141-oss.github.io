@@ -1,0 +1,153 @@
+/* 3F 支払う（カード比較・クレカ積立） portal.css のトークンを前提にする */
+:root{ --pay:#8A6A22; }
+
+.cc-hero{padding:44px 0 34px; border-bottom:1px solid var(--line);
+  background:linear-gradient(90deg, rgba(138,106,34,.07), rgba(138,106,34,.02)), var(--bg);}
+.cc-hero.is-bridge{background:linear-gradient(90deg, rgba(30,107,65,.07), rgba(138,106,34,.07)), var(--bg);}
+.cc-hero .eyebrow{color:var(--pay);}
+.cc-hero h1{font-size:clamp(25px, 3.6vw, 36px); line-height:1.45; margin:8px 0 12px;}
+.cc-hero .lede{max-width:46em; margin-bottom:16px;}
+.cc-meta{list-style:none; margin:0 0 16px; padding:0; display:flex; flex-wrap:wrap; gap:6px 16px; font-size:12.5px; color:var(--sub);}
+.cc-meta li::before{content:"・"; color:var(--pay);}
+.cc-jump{display:flex; flex-wrap:wrap; gap:8px;}
+.cc-jump a{font-size:13px; font-weight:700; text-decoration:none; padding:6px 14px; border:1px solid var(--line-strong); border-radius:999px; background:#fff;}
+.cc-jump a:hover{border-color:var(--pay); color:var(--pay);}
+
+.cc-sec{padding:44px 0 8px;}
+.notice-box{margin:28px 0 0; border:1px solid #E7C9A0; border-left:4px solid var(--borrow); background:#FFF8EE; padding:14px 18px; font-size:13.5px;}
+.notice-box strong{display:block; color:var(--borrow); margin-bottom:4px;}
+.notice-box p{margin:0 0 6px;}
+.notice-box a{font-size:13px; font-weight:700; color:var(--borrow);}
+
+/* 比較表 */
+.cc-table-wrap{overflow-x:auto; border:1px solid var(--line); -webkit-overflow-scrolling:touch;}
+.cc-table-wrap:focus-visible{outline:2px solid var(--pay); outline-offset:2px;}
+.cc-table{border-collapse:separate; border-spacing:0; width:100%; min-width:980px; font-size:13px; line-height:1.6;}
+.cc-table th, .cc-table td{padding:12px 14px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left;}
+.cc-table thead th{background:var(--bg-soft); position:sticky; top:0; z-index:1; font-weight:700;}
+.cc-table thead th small{display:block; font-weight:400; color:var(--sub); font-size:11.5px; margin-top:2px;}
+.cc-table tbody th{background:var(--bg-soft); width:118px; font-size:12.5px; color:var(--ink-2); white-space:nowrap;}
+.cc-table th:first-child{position:sticky; left:0; z-index:2; border-right:1px solid var(--line);}
+.cc-table thead th:first-child{z-index:3;}
+.cc-table td small{display:block; color:var(--sub); font-size:11.5px;}
+.cc-table td small.warn{color:var(--borrow); font-weight:700;}
+.cc-table tr.is-key td{background:#FFFDF6;}
+.cc-table .rate{font-family:'Shippori Mincho', serif; font-size:22px; color:var(--ink);}
+.cc-table td a{font-size:12.5px; font-weight:700; color:var(--ink-2);}
+.cc-table tbody tr:last-child th, .cc-table tbody tr:last-child td{border-bottom:0;}
+.cc-name{display:inline-flex; align-items:center; gap:7px; font-weight:700;}
+.cc-name i{width:10px; height:16px; border-radius:2px; background:var(--cc); flex-shrink:0;}
+
+.t-tsumi{min-width:900px;}
+.t-tsumi td.num{font-family:'Shippori Mincho', serif; font-size:19px; font-weight:800; white-space:nowrap; color:var(--invest);}
+.t-tsumi td.num small{font-family:'Zen Kaku Gothic New', sans-serif; font-weight:500; display:inline; margin-left:3px;}
+.t-tsumi td.cond{font-size:12px; color:var(--sub); min-width:280px;}
+.t-tsumi .rate{font-size:15px;}
+.t-tsumi tr:target td, .t-tsumi tr:target th{background:#FFF6DA;}
+
+/* 試算 */
+.sim-grid{display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.2fr); gap:20px; align-items:start;}
+.sim-form{border:1px solid var(--line); border-top:4px solid var(--pay); background:#fff; padding:18px 20px; display:grid; gap:14px;}
+.sim-form label{display:block; font-size:12.5px; font-weight:700; color:var(--ink-2);}
+.sim-form small{display:block; font-weight:400; color:var(--sub); font-size:11.5px; margin-top:4px;}
+.sim-form .in{display:flex; align-items:center; margin-top:5px; border:1px solid var(--line-strong); border-radius:3px; background:#fff;}
+.sim-form .in:focus-within{border-color:var(--pay); box-shadow:0 0 0 2px rgba(138,106,34,.18);}
+.sim-form input[type=number]{flex:1; min-width:0; border:0; background:transparent; padding:9px 10px; font:inherit; font-size:15px; font-variant-numeric:tabular-nums; outline:none; color:var(--text);}
+.sim-form .in em{font-style:normal; padding-right:10px; font-size:12.5px; color:var(--sub); font-weight:500;}
+.sim-form input[type=range]{width:100%; margin-top:8px; accent-color:var(--pay);}
+.sim-form fieldset{border:1px dashed var(--line-strong); margin:0; padding:10px 12px;}
+.sim-form legend{font-size:12px; font-weight:700; color:var(--sub); padding:0 4px;}
+.sim-form .chk{display:flex; gap:8px; align-items:flex-start; font-weight:500; color:var(--text); padding:3px 0; font-size:13px;}
+.sim-form .chk input{margin-top:3px; accent-color:var(--pay);}
+.sim-result{border:1px solid var(--line); padding:16px 20px; background:var(--bg-soft);}
+.sim-total{font-size:13px; color:var(--sub); margin-bottom:10px;}
+.sim-total b{font-family:'Shippori Mincho', serif; font-size:20px; color:var(--ink); margin:0 6px;}
+.sim-bars{list-style:none; margin:0; padding:0; display:grid; gap:12px;}
+.sim-bars li{background:#fff; border:1px solid var(--line); padding:10px 12px;}
+.bar-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; font-size:13.5px;}
+.bar-head b{font-family:'Shippori Mincho', serif; font-size:19px; white-space:nowrap; color:var(--ink);}
+.bar-head b small{font-family:'Zen Kaku Gothic New', sans-serif; font-size:11px; font-weight:500; color:var(--sub); margin-left:2px;}
+.bar{height:8px; background:var(--bg-soft); border-radius:4px; margin:6px 0 4px; overflow:hidden;}
+.bar span{display:block; height:100%; background:var(--cc); border-radius:4px; transition:width .25s;}
+.bar-note{margin:0; font-size:11.5px; color:var(--sub);}
+.sim-note{font-size:11.5px; color:var(--sub); margin:12px 0 0;}
+
+/* カード別詳細 */
+.cc-detail{border:1px solid var(--line); border-top:4px solid var(--cc); margin-bottom:18px; padding:20px 22px; background:#fff;}
+.cc-detail h3{font-size:22px;}
+.cc-detail .lead{margin:4px 0 12px; font-size:14px; color:var(--ink-2); font-weight:700;}
+.specs{margin:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:6px 20px; font-size:13px;}
+.specs div{display:grid; grid-template-columns:84px 1fr; gap:8px; padding:6px 0; border-bottom:1px dashed var(--line);}
+.specs dt{color:var(--sub); font-weight:700; font-size:12px;}
+.specs dd{margin:0;}
+.cc-detail .notice{margin:14px 0 0; font-size:13px; background:#FFF8EE; border-left:3px solid var(--borrow); padding:10px 12px;}
+.cc-detail .notice strong{color:var(--borrow);}
+.cc-detail .notice a{font-weight:700; color:var(--borrow);}
+.feats{list-style:none; margin:16px 0 0; padding:0; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px;}
+.feats li{display:grid; grid-template-columns:74px 1fr; gap:10px; background:var(--bg-soft); padding:12px; border-radius:3px;}
+.feats .kind{align-self:start; text-align:center; font-size:11px; font-weight:700; color:#fff; background:var(--ink-2); padding:2px 4px; border-radius:2px;}
+.feats .f-shop .kind{background:var(--pay);}
+.feats .f-code .kind{background:#5B4FA0;}
+.feats .f-telecom .kind{background:var(--protect);}
+.feats .f-group .kind{background:var(--ink-2);}
+.feats strong{font-size:14px;}
+.feats p{margin:4px 0 0; font-size:12.5px; color:var(--sub); line-height:1.75;}
+.tsumi{margin-top:14px; border:1px solid rgba(30,107,65,.35); background:rgba(30,107,65,.05); padding:12px 14px; font-size:13px;}
+.tsumi strong{display:block; color:var(--invest); font-size:14px; margin-top:4px;}
+.tsumi p{margin:4px 0 6px; color:var(--sub); font-size:12.5px;}
+.tsumi a{font-weight:700; color:var(--invest); text-decoration:none;}
+.tsumi a:hover{text-decoration:underline;}
+.chip-2f{display:inline-block; font-size:11px; font-weight:700; color:#fff; background:var(--invest); padding:1px 8px; border-radius:2px;}
+.src{margin-top:12px; font-size:12.5px;}
+.src summary{cursor:pointer; color:var(--sub); font-weight:700;}
+.src ul{margin:6px 0 0; padding-left:18px;}
+.src a{color:var(--ink-2);}
+
+/* フロー */
+.flow{list-style:none; margin:6px 0 0; padding:0; display:grid; grid-template-columns:repeat(3, 1fr); gap:0; max-width:760px; counter-reset:f;}
+.flow li{position:relative; background:#fff; border:1px solid var(--line); padding:12px 14px 12px 16px; margin-right:18px;}
+.flow li:not(:last-child)::after{content:"→"; position:absolute; right:-17px; top:50%; transform:translateY(-50%); color:var(--sub); font-weight:700;}
+.flow span{display:block; font-size:10.5px; font-weight:700; letter-spacing:.06em; color:var(--pay);}
+.flow li:last-child span{color:var(--invest);}
+.flow strong{display:block; font-size:14.5px;}
+.flow small{font-size:11.5px; color:var(--sub);}
+
+/* 2F 連携 */
+.fund-list{list-style:none; margin:0 0 16px; padding:0; border:1px solid var(--line);}
+.fund-list li + li{border-top:1px solid var(--line);}
+.fund-list a{display:grid; grid-template-columns:1fr auto auto; gap:16px; align-items:center; padding:12px 14px; text-decoration:none;}
+.fund-list a:hover{background:var(--bg-soft);}
+.fund-list a:hover .nm{color:var(--invest); text-decoration:underline;}
+.fund-list .nm{font-weight:600; font-size:14px;}
+.fund-list .nm small{display:block; font-weight:400; font-size:11.5px; color:var(--sub);}
+.fund-list .v{text-align:right; font-family:'Shippori Mincho', serif; font-weight:800; font-size:16px; color:var(--invest); white-space:nowrap;}
+.fund-list .v small{display:block; font-family:'Zen Kaku Gothic New', sans-serif; font-weight:500; font-size:10.5px; color:var(--sub);}
+.fund-list .loading{padding:14px; color:var(--sub);}
+
+.qa details{border-bottom:1px solid var(--line); padding:12px 0;}
+.qa summary{cursor:pointer; font-weight:700; font-size:15px;}
+.qa details p{margin:8px 0 0; color:var(--sub); font-size:14px;}
+
+.cc-bridge{margin:44px 0 0; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px;
+  border:1px solid var(--line); border-left:4px solid var(--invest); background:var(--bg-soft); padding:22px 24px;}
+.cc-bridge h2{font-size:21px; margin:4px 0 6px;}
+.cc-bridge p{margin:0; color:var(--sub); font-size:13.5px; max-width:44em;}
+.cc-disclaimer{font-size:12px; color:var(--sub); line-height:1.8; margin:28px 0 48px;}
+
+@media (max-width:860px){
+  .sim-grid{grid-template-columns:1fr;}
+  .feats{grid-template-columns:1fr;}
+  .specs{grid-template-columns:1fr;}
+}
+@media (max-width:600px){
+  .cc-hero{padding:30px 0 24px;}
+  .cc-detail{padding:16px;}
+  .feats li{grid-template-columns:1fr; gap:6px;}
+  .feats .kind{justify-self:start; padding:2px 10px;}
+  .flow{grid-template-columns:1fr; gap:10px;}
+  .flow li{margin-right:0;}
+  .flow li:not(:last-child)::after{content:"↓"; right:auto; left:50%; top:auto; bottom:-17px; transform:translateX(-50%);}
+  .fund-list a{grid-template-columns:1fr auto; }
+  .fund-list a .v:last-child{display:none;}
+  .cc-table tbody th{width:92px; white-space:normal;}
+}

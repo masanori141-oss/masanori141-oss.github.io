@@ -17,8 +17,8 @@
   };
 
   /* フロアガイド（ヒーロー右側。上の階から順に並べる＝館内案内板の見立て） */
-  var STAT = { borrow: "st-borrow", invest: "st-invest", business: "st-business" };
-  var UNIT = { borrow: "件", invest: "本", business: "件" };
+  var STAT = { borrow: "st-borrow", invest: "st-invest", pay: "st-pay", business: "st-business" };
+  var UNIT = { borrow: "件", invest: "本", pay: "枚", business: "件" };
   var floors = HUB.sections.filter(function (s) { return !s.annex; }).slice().reverse()
     .concat(HUB.sections.filter(function (s) { return s.annex; }));
   document.getElementById("directory").innerHTML = floors.map(function (sec) {
@@ -92,6 +92,31 @@
     })
     .catch(function () {
       document.getElementById("pick-mortgage").innerHTML = '<li class="loading">データを読み込めませんでした</li>';
+    });
+
+  /* カード：3F 支払うの比較データ（クレカ積立 月5万円の年間ポイント順） */
+  fetch("/cards/cards.json")
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (d) {
+      setText("st-pay", d.cards.length.toLocaleString("ja-JP"));
+      function pts(c, amount) {
+        var t = c.tsumitate, unit = t.unit || 1, base = Math.floor(amount / unit) * unit, p = 0, prev = 0;
+        t.tiers.forEach(function (x) { p += Math.max(0, Math.min(base, x.upTo) - prev) * x.rate / 100; prev = x.upTo; });
+        if (t.pointCap) p = Math.min(p, t.pointCap);
+        return Math.floor(p) * 12;
+      }
+      var rows = d.cards.map(function (c) { return { c: c, v: pts(c, 50000) }; })
+        .sort(function (a, b) { return b.v - a.v; }).slice(0, 3);
+      var el = document.getElementById("pick-cards");
+      if (el) el.innerHTML = rows.map(function (r) {
+        return '<li><div class="nm"><a href="/cards/nisa-tsumitate.html#tsumi-' + esc(r.c.id) + '" data-mh-ev="portal_click" data-mh-id="pay.tsumitate">' + esc(r.c.name) +
+          "</a><small>" + esc(r.c.tsumitate.broker) + "・" + esc(r.c.tsumitate.rateText) + "</small></div>" +
+          '<div class="val"><small>年</small>' + r.v.toLocaleString("ja-JP") + "<small>円相当</small></div></li>";
+      }).join("");
+    })
+    .catch(function () {
+      var el = document.getElementById("pick-cards");
+      if (el) el.innerHTML = '<li class="loading">データを読み込めませんでした</li>';
     });
 
   /* 投信：data.js は NISA比較ページと同じファイル（読み込めばブラウザにキャッシュされ、遷移後の表示も速くなる） */

@@ -10,7 +10,7 @@
 |---|---|---|
 | 1F 借りる | ローン比較（住宅・教育・自動車・カードほか） | 公開中（sme-support-japan/loans） |
 | 2F 増やす | NISA投信比較 | 公開中（nisa-fund-compare） |
-| 3F 支払う | クレジットカード比較など | 近日オープン |
+| 3F 支払う | クレジットカード比較・クレカ積立×NISA | 公開中（このリポジトリの `cards/`） |
 | 4F 備える | 保険比較 | 近日オープン |
 | 別館 事業の資金 | 補助金・制度融資・共済 | 公開中（sme-support-japan） |
 
@@ -39,6 +39,9 @@ https://masanori141-oss.github.io/sme-support-japan/   ← 借りる／事業の
 | `assets/gnav/gnav.css` | 上記の見た目（`.mh-` 接頭辞で既存サイトのCSSと分離） |
 | `index.html` / `assets/portal.*` | ポータルTOP（分類／目的から探す／きょうの比較台帳） |
 | `tools/simulator.html` | 返済・積立シミュレーター（借りると増やすの橋渡し） |
+| `cards/cards.json` | **3F 支払う**のデータ（5カードの還元率・特典・クレカ積立。すべて公式サイトの確認日・出典つき） |
+| `cards/index.html` / `cards/nisa-tsumitate.html` | 上のJSONから `tools/build_cards.py` で生成するページ（直接編集しない） |
+| `tools/verify_cards.py` | 公式サイトに「書かれているはずの文言」があるか照合（週1回 GitHub Actions で実行） |
 | `robots.txt` / `sitemap.xml` | ドメイン直下のrobots.txt（各サイトのサイトマップをまとめて通知） |
 | `tools/dev_server.py` | ローカル確認用。3リポジトリを本番と同じURL配置で配信 |
 
@@ -80,6 +83,19 @@ https://masanori141-oss.github.io/sme-support-japan/   ← 借りる／事業の
 5. このリポジトリをpushすると、**既存の全サイトのナビ・フッター・ポータルTOPに一斉反映**されます
 
 保険（`protect`）も同じ手順です。分類そのものを増やす場合は `sections` に1ブロック追加します。
+
+## 3F 支払う（クレジットカード比較）の更新方法
+
+カード情報はクローリングではなく、各社公式サイトで確認した内容を `cards/cards.json` に記載しています。
+
+1. 公式サイトを確認し、`cards/cards.json` の該当箇所と `checkedAt`（確認日）を更新
+2. 各項目の `verify` には「その公式ページに書かれている文言」を入れておく
+3. push すると GitHub Actions がページを再生成してコミット（手元では `python tools/build_cards.py`）
+
+毎週月曜に `tools/verify_cards.py` が公式ページを取得し、`verify` の文言が見つからなくなると
+（＝還元率や条件の記載が変わった可能性）、ラベル `card-data-check` の Issue を作成します。
+
+カードを追加する場合は `cards` 配列に1件追加し、`rates`（試算用の店舗別還元率）と `tsumitate`（クレカ積立の段階的な還元率 `tiers`）を設定します。
 
 ## 計測
 

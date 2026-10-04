@@ -87,6 +87,7 @@ window.MONEY_HUB = {
             { id: "invest.nisa-list", label: "NISA対象ファンド全一覧", href: "/nisa-fund-compare/list/page-1.html", match: ["/nisa-fund-compare/list/"] },
             { id: "invest.nisa-fund", label: "ファンド詳細", href: null, match: ["/nisa-fund-compare/funds/"], hidden: true },
             { id: "invest.nisa-guide", label: "NISAまるわかりガイド", href: "/nisa-fund-compare/index.html#nisa-guide", match: [] },
+            { id: "invest.card-tsumitate", label: "クレカ積立でNISA", href: "/cards/nisa-tsumitate.html", match: [], desc: "3F 支払う と連携" },
           ],
         },
         {
@@ -103,13 +104,27 @@ window.MONEY_HUB = {
       floor: "3F",
       label: "支払う",
       en: "PAY",
-      lede: "クレジットカードを、ポイント還元率・年会費で比較",
+      lede: "主要クレジットカードを、還元率と経済圏で比較",
       color: "#8A6A22",
-      status: "soon",
-      groups: [{ title: "キャッシュレス", items: [
-        { id: "pay.card", label: "クレジットカード比較", status: "soon" },
-        { id: "pay.debit", label: "デビット・プリペイド比較", status: "soon" },
-      ] }],
+      status: "live",
+      href: "/cards/index.html",
+      match: ["/cards/"],
+      groups: [
+        {
+          title: "クレジットカード",
+          items: [
+            { id: "pay.card", label: "クレジットカード比較", href: "/cards/index.html", match: ["/cards/index.html", "/cards/$"], desc: "三菱UFJ・三井住友・d・楽天・PayPayの5枚" },
+            { id: "pay.simulate", label: "使い方で還元額を試算", href: "/cards/index.html#simulate", match: [] },
+            { id: "pay.tsumitate", label: "クレカ積立×NISA", href: "/cards/nisa-tsumitate.html", desc: "積立のポイント還元と証券会社を比較" },
+          ],
+        },
+        {
+          title: "これから追加予定",
+          items: [
+            { id: "pay.debit", label: "デビット・プリペイド比較", status: "soon" },
+          ],
+        },
+      ],
     },
     {
       id: "protect",
@@ -161,8 +176,8 @@ window.MONEY_HUB = {
     { title: "家を買う", icon: "house", links: ["borrow.mortgage", "invest.nisa-search", "protect.fire", "tool.simulator"] },
     { title: "子どもの教育費", icon: "school", links: ["borrow.education", "invest.nisa-guide", "protect.life", "tool.simulator"] },
     { title: "車を買う", icon: "car", links: ["borrow.auto", "pay.card", "tool.simulator"] },
-    { title: "老後にそなえる", icon: "sprout", links: ["invest.nisa-search", "invest.nisa-guide", "protect.medical"] },
-    { title: "毎日の支払いを見直す", icon: "card", links: ["pay.card", "pay.debit", "invest.nisa-search"] },
+    { title: "老後にそなえる", icon: "sprout", links: ["invest.nisa-search", "pay.tsumitate", "protect.medical"] },
+    { title: "毎日の支払いを見直す", icon: "card", links: ["pay.card", "pay.tsumitate", "pay.debit"] },
     { title: "事業をはじめる・広げる", icon: "store", links: ["business.ledger", "business.government", "borrow.all"] },
   ],
 
@@ -203,9 +218,19 @@ window.MONEY_HUB = {
       { to: "invest.nisa-search", text: "資産形成も同じ物差しで。NISA対象の投資信託を比較。" },
     ],
     "invest": [
+      { to: "pay.tsumitate", text: "NISAの積立をクレジットカードで。5大カードのクレカ積立ポイントと証券会社を比較。" },
       { to: "borrow.mortgage", text: "住宅購入を検討中なら、住宅ローンの金利を金融機関横断で比較。" },
       { to: "borrow.securities", text: "保有する株式・投資信託を売らずに資金化する、証券担保ローン。" },
-      { to: "tool.simulator", text: "積立の将来額と、ローン返済額を同時に試算できます。" },
+    ],
+    "pay.card": [
+      { to: "pay.tsumitate", text: "選んだカードでNISAの積立も。クレカ積立のポイント還元を5枚で比較。" },
+      { to: "invest.nisa-search", text: "積み立てる投資信託を、信託報酬とリターンで絞り込み。" },
+      { to: "tool.simulator", text: "ローンの返済額と積立額を、同じ画面で試算できます。" },
+    ],
+    "pay.tsumitate": [
+      { to: "invest.nisa-search", text: "積み立てる投資信託を探す。NISA対象ファンドをコストとリターンで比較。" },
+      { to: "invest.nisa-guide", text: "つみたて投資枠・成長投資枠など、NISAの仕組みを確認。" },
+      { to: "pay.card", text: "ふだんの買い物の還元も含めて、カード全体で比較。" },
     ],
     "business": [
       { to: "borrow.all", text: "民間金融機関の融資もあわせて。ローン総合台帳で金利を比較。" },
